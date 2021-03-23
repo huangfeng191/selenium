@@ -64,7 +64,7 @@ class SeleniumTable(Table):
     def save(self, ):
         treasure_industry.delete({"t":self.t},multi=True)
         df1=self.df.copy()
-        df1.columns = self.fields
+        df1.columns = self.fields+list(self.other_fields.keys())
         df1["t"]=self.t
         df1.set_index("order", inplace=True)
         o=json.loads(df1.to_json(orient="records"))
