@@ -5,6 +5,14 @@ from main.utils import yaml_loader
 
 TableConfig=yaml_loader("./table.yaml")
 
+# class OtherFieldRule():
+#     def __init__(self,tp):
+#         self.tp=tp
+
+
+
+
+
 
 
 class Table:

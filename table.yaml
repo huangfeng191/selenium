@@ -12,6 +12,13 @@
     fields:
       ['order', 'nm', 'relate_links', 'price', 'price_down', 'pct', 'total_value',
        'change', 'up_count', 'down_count','up_code', 'up_code_pct']
+    other_fields:
+      'detail':
+        ruleType: "row_index"
+        xpath: '//*[@id="table_wrapper-table"]/tbody/tr[{row_index}]/td[2]/a'
+        attr: 'href'
+
+
 
 
 
