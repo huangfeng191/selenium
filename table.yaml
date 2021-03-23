@@ -1,0 +1,10 @@
+"行业":
+  id: industry_board
+  tp: selenium
+  selenium:
+    url: "http://quote.eastmoney.com/center/boardlist.html#industry_board"
+    id: "table_wrapper-table"
+    nextButton:
+      xPath: '//*[@id="main-table_paginate"]/a[2]'
+
+

@@ -44,7 +44,7 @@ def html_to_df(html):
 
 
 
-if __name__=="__main__":
+if __name__=="__main__2":
     df= get_all_tables(url)
     pass
 
@@ -58,5 +58,4 @@ if __name__=="__main__1":
     pass
 # pd.concat([df[0].loc[0:,:],df[0].loc[0:,:]])
 
-# 按面向对象实现, 会有很多的 benefit
 
