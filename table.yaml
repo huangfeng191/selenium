@@ -1,10 +1,17 @@
 "行业":
-  id: industry_board
+  id: industry
   tp: selenium
   selenium:
     url: "http://quote.eastmoney.com/center/boardlist.html#industry_board"
     id: "table_wrapper-table"
     nextButton:
-      xPath: '//*[@id="main-table_paginate"]/a[2]'
+      xpath: '//*[@id="main-table_paginate"]/a[2]'
+    columns:
+      ['排名', '板块名称', '相关链接', '最新价', '涨跌额', '涨跌幅', '总市值',
+       '换手率', '上涨家数', '下跌家数','领涨股票', '涨跌幅.1']
+    fields:
+      ['order', 'nm', 'relate_links', 'price', 'price_down', 'pct', 'total_value',
+       'change', 'up_count', 'down_count','up_code', 'up_code_pct']
+
 
 

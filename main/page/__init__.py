@@ -10,6 +10,12 @@ TableConfig=yaml_loader("./table.yaml")
 class Table:
     def __init__(self):
         pass
+    def start(self,):
+        '''
+        开始获取数据
+        :return:
+        '''
+        pass
     def get_df(self, ):
         pass
 
