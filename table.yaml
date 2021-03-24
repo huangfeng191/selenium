@@ -4,7 +4,8 @@
   selenium:
     tp: "table_data"
     url: "http://quote.eastmoney.com/center/boardlist.html#industry_board"
-    id: "table_wrapper-table"
+    selector:
+      id: "table_wrapper-table"
     nextButton:
       xpath: '//*[@id="main-table_paginate"]/a[2]'
     columns:
@@ -35,20 +36,25 @@
 
 
 "行业详情":
-  id: industry
+  id: industry_detail
   tp: selenium
   selenium:
     tp: "table_title"
-    url: "http://quote.eastmoney.com/center/boardlist.html#industry_board"
-    id: "table_wrapper-table"
+    url: "http://data.eastmoney.com/bkzj/BK0427.html"
+    selector: {
+        attrs: {
+          class: "dataview-body"
+        }
+      }
+
     columns:
       []
+    field_keys:
+      []
     fields:
-      tp: "attr"
-      xpath: '//*[@id="table_wrapper-table"]/tbody/tr[{row_index}]/td[2]/a'
-      attr: 'href'
-    other_fields:
-    save: ["mongo"]
+      []
+
+    save_config: []
 
 
 

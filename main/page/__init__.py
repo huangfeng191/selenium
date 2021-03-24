@@ -2,13 +2,11 @@
 #-*- coding: utf-8 -*-
 
 from main.utils import yaml_loader
-
+from main.utils.exception import UnrealizedException
 TableConfig=yaml_loader("./table.yaml")
 
-# class OtherFieldRule():
-#     def __init__(self,tp):
-#         self.tp=tp
 
+from selenium import webdriver
 
 
 
@@ -16,19 +14,21 @@ TableConfig=yaml_loader("./table.yaml")
 
 
 class Table:
+    driver=None
     def __init__(self,*args,**kwargs):
         pass
     def start(self,):
         '''
-        开始获取数据
+        开始获取数据,并保存
         :return:
         '''
         pass
-    def get_df(self, ):
-        pass
 
-    def save(self, ):
-        pass
+    @classmethod
+    def init_drive(cls):
+        if cls.driver == None:
+            cls.driver = webdriver.Chrome()
+
     @classmethod
     def from_yaml(cls,name,tp):
         config=TableConfig[name][tp]
@@ -42,21 +42,19 @@ class PageFactory:
 
     def getTable(self, name,tp):
         if self.source=="yaml":
+            config=TableConfig[name][tp]
             if tp=="rest":
-                table=RestTable.from_yaml(name,tp)
+                table=RestTable(**config)
             elif tp=="selenium":
-                table=SeleniumTable.from_yaml(name,tp)
+                if config.get("tp")=="table_data":
+                    table=SeleniumTableData(**config)
+                elif config.get("tp")=="table_title":
+                    table=SeleniumTableTitle(**config)
+                else:
+                    raise UnrealizedException()
         return table
 
 
 
 from main.page.rest import RestTable
-from main.page.selenium import SeleniumTable
-
-
-
-
-
-
-
-
+from main.page.selenium import SeleniumTableData, SeleniumTableTitle

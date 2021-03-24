@@ -1,5 +1,4 @@
 from main.page import Table
-from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
 import traceback
@@ -14,10 +13,10 @@ from main.utils.log import FileLog
 selenium_log=FileLog("selenium.log").logger
 
 
-class SeleniumTable(Table):
+class SeleniumTableData(Table):
     driver=None
-    def __init__(self,id,nextButton,url,columns,fields,other_fields,save_config=None,*args,**kwargs):
-        self.id = id
+    def __init__(self,selector,nextButton,url,columns,fields,other_fields,save_config=None,*args,**kwargs):
+        self.selector= selector
         self.nextButton = nextButton
         self.df = None
         self.url = url
@@ -25,13 +24,9 @@ class SeleniumTable(Table):
         self.columns=columns
         self.fields=fields
         self.other_fields=other_fields
-        self.t=getToday_s()
         self.save_config=save_config
         self.init_drive()
-    @classmethod
-    def init_drive(cls):
-        if cls.driver == None:
-            cls.driver = webdriver.Chrome()
+
 
 
     def _bind_other_fields(self,df_temp):
@@ -49,7 +44,7 @@ class SeleniumTable(Table):
 
     def _start_table(self):
         soap = BeautifulSoup(self.driver.page_source, features="lxml")
-        soap_dom = soap.find(id=self.id)
+        soap_dom = soap.find(**self.selector)
         if (soap_dom):
             df_temp = pd.read_html(str(soap_dom)) or None
             if len(df_temp) > 0:
@@ -88,3 +83,38 @@ class SeleniumTable(Table):
             s=SaveFactory.init(tp=conf.get("tp")).from_yarm(**kwargs)
             s.save()
             print("OK")
+
+
+
+class SeleniumTableTitle(Table):
+    def __init__(self,selector,url,columns=None,fields=None,field_keys=None,save_config=None,*args,**kwargs):
+        self.selector=selector
+        self.url=url
+        self.columns=columns
+        self.fields=fields
+        self.field_keys=field_keys
+        self.save_config=save_config
+        self.init_drive()
+
+    def _start_table(self):
+        soap = BeautifulSoup(self.driver.page_source, features="lxml")
+        soap_dom = soap.find(**self.selector)
+        a=[]
+        for r in soap.find_all("th"):
+            # 考虑写入磁盘
+            if r.attrs.get("colspan")>1:
+                pass
+            o={
+                "field_key":r.attrs.get("data-field") or "",
+                "columns": r.text or ""
+            }
+            a.append(o)
+        print (a )
+        pass
+    def start(self):
+        try:
+            self.driver.get(self.url)
+            self._start_table()
+        except Exception as err:
+
+            selenium_log.error(f"{str(traceback.format_exc())}\n{err}")

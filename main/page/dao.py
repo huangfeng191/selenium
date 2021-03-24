@@ -5,7 +5,7 @@ from main.page.service import treasure_industry,treasure_industry_detail
 
 from main.page.util import ParseCommObj
 
-
+# 支持的方法
 class BindCurd():
     @staticmethod
     def get(item):
