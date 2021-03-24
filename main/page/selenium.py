@@ -95,21 +95,36 @@ class SeleniumTableTitle(Table):
         self.field_keys=field_keys
         self.save_config=save_config
         self.init_drive()
-
+    # 此处更合理, 无需重新指定
+    # 需要解决2级表头的问题
     def _start_table(self):
         soap = BeautifulSoup(self.driver.page_source, features="lxml")
         soap_dom = soap.find(**self.selector)
         a=[]
+        back=[]
+        consume=None
         for r in soap.find_all("th"):
             # 考虑写入磁盘
-            if r.attrs.get("colspan")>1:
-                pass
+            if r.attrs.get("colspan") and r.attrs.get("colspan")>"1":
+                back.append({"prefix_name":r.text,"count":int(r.attrs.get("colspan"))})
+                continue
+            if consume == None and len(back)>0:
+                consume=back[0]
+
             o={
                 "field_key":r.attrs.get("data-field") or "",
-                "columns": r.text or ""
+                "column":  r.text or ""
             }
+            if consume and consume.get("count")>0:
+                o["column"]=consume.get("prefix_name")+ o["column"]
+                --consume["count"]
+            if   consume and   consume.get("count")==0:
+                consume=None
             a.append(o)
         print (a )
+
+        # df11.columns = ['_'.join(col) for col in df11.columns.values]
+
         pass
     def start(self):
         try:
