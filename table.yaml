@@ -2,6 +2,7 @@
   id: industry
   tp: selenium
   selenium:
+    tp: "table_data"
     url: "http://quote.eastmoney.com/center/boardlist.html#industry_board"
     id: "table_wrapper-table"
     nextButton:
@@ -14,10 +15,51 @@
        'change', 'up_count', 'down_count','up_code', 'up_code_pct']
     other_fields:
       'detail':
-        ruleType: "row_index"
-        xpath: '//*[@id="table_wrapper-table"]/tbody/tr[{row_index}]/td[2]/a'
-        attr: 'href'
+          ruleType: "row_index"
+          xpath: '//*[@id="table_wrapper-table"]/tbody/tr[{row_index}]/td[2]/a'
+          attr: 'href'
+    save_config: [{
+             tp: "mongo",
+             crud_nm: "industry",
+             unique_k: {
+               t:  {
+                    _tp: "today_str"
+               }
+             },
+             const:{
+               t: {
+                 _tp: "today_str"
+               }
+             }
+           }]
 
+
+"行业详情":
+  id: industry
+  tp: selenium
+  selenium:
+    tp: "table_title"
+    url: "http://quote.eastmoney.com/center/boardlist.html#industry_board"
+    id: "table_wrapper-table"
+    columns:
+      []
+    fields:
+      tp: "attr"
+      xpath: '//*[@id="table_wrapper-table"]/tbody/tr[{row_index}]/td[2]/a'
+      attr: 'href'
+    other_fields:
+    save: ["mongo"]
+
+
+
+#
+#"行业详情"
+#  id: "industry-detail"
+#  tp: rest
+#  rest:
+#    url: "10.push2.eastmoney.com"
+#    params: "fid=f62&po=1&pz=500&pn=1&np=1&fltt=2&invt=2&fs=b:{industry_code}&fields=f12,f14,f2,f3,f62,f184,f66,f69,f72,f75,f78,f81,f84,f87,f204,f205,f124"
+#    arg: "industry_code" # BK0478
 
 
 

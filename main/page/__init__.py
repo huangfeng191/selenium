@@ -16,7 +16,7 @@ TableConfig=yaml_loader("./table.yaml")
 
 
 class Table:
-    def __init__(self):
+    def __init__(self,*args,**kwargs):
         pass
     def start(self,):
         '''

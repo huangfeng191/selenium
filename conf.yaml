@@ -4,4 +4,5 @@ sys:
     host: "mongodb://127.0.0.1:27017"
   db_prefix:
     "STOCK_"   # 数据库前缀
+  log_path: "resource/log"
 
